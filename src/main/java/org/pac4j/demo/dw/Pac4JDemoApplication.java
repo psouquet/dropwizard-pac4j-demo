@@ -1,18 +1,19 @@
 package org.pac4j.demo.dw;
 
-import com.codahale.metrics.health.HealthCheck;
-
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.pac4j.core.config.Config;
+import org.pac4j.demo.dw.resources.BreakerResource;
 import org.pac4j.demo.dw.resources.ViewsResource;
 import org.pac4j.dropwizard.Pac4jBundle;
 import org.pac4j.dropwizard.Pac4jFactory;
+import org.pac4j.sql.test.tools.DbServer;
+
+import com.codahale.metrics.health.HealthCheck;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
-import org.pac4j.sql.test.tools.DbServer;
 
 public class Pac4JDemoApplication extends Application<Pac4JDemoConfiguration> {
 
@@ -47,6 +48,7 @@ public class Pac4JDemoApplication extends Application<Pac4JDemoConfiguration> {
         });
 
         env.jersey().register(ViewsResource.class);
+        env.jersey().register(BreakerResource.class);
 
         env.healthChecks().register(getName(), new HealthCheck() {
             @Override
